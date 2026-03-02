@@ -82,7 +82,7 @@ function extractSerialNumber(text: string): string | null {
   // Patrones comunes de números de serie en billetes
   const patterns = [
     /\d{8,9}\s*[A-Z]/i,      // Formato BOB: 8-9 dígitos + Letra
-    /[A-Z]{2}\s*\d{8,10}/i,  // 2 letras + 8-10 dígitos (USD)
+    /[A-Z]{2}\s*\d{8,10}/i,  // 2 letras + 8-10 dígitos (BOB Intl/Legacy)
     /[A-Z]\s*\d{9,11}/i,      // 1 letra + 9-11 dígitos
     /\d{2}[A-Z]{2}\d{6,8}/i,  // 2 dígitos + 2 letras + 6-8 dígitos
     /SERIAL\s*:?\s*([A-Z0-9\s]{10,14})/i,  // Etiqueta "SERIAL"

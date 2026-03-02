@@ -158,7 +158,7 @@ export function ResultView({ result, onReset }: ResultViewProps) {
                   <>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Denominación:</span>
-                      <span className="text-white">${billData.denomination} {billData.currency}</span>
+                      <span className="text-white">Bs. {billData.denomination} {billData.currency}</span>
                     </div>
 
                     <div className="flex justify-between">

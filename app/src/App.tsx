@@ -201,7 +201,7 @@ function App() {
                   </h4>
                   <ul className="list-disc list-inside text-sm space-y-1 ml-2">
                     <li>Verificación en tiempo real</li>
-                    <li>Soporte para USD y BOB (Bolivianos)</li>
+                    <li>Soporte para Bolivianos (BOB/Bs.)</li>
                     <li>Base de datos inmutable (solo lectura)</li>
                     <li>Procesamiento de imagen con IA</li>
                   </ul>
@@ -250,8 +250,16 @@ function App() {
                 >
                   <div className="relative">
                     {/* Billete animado */}
-                    <div className="w-48 h-24 bg-gradient-to-r from-green-600 via-green-500 to-green-600 rounded-lg shadow-2xl flex items-center justify-center border-2 border-green-400">
-                      <span className="text-4xl font-bold text-white">$100</span>
+                    <div className="flex flex-col gap-2">
+                      <div className="w-48 h-20 bg-gradient-to-r from-green-600 via-green-500 to-green-600 rounded-lg shadow-2xl flex items-center justify-center border-2 border-green-400">
+                        <span className="text-3xl font-bold text-white">Bs. 50</span>
+                      </div>
+                      <div className="w-44 h-18 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 rounded-lg shadow-2xl flex items-center justify-center border-2 border-blue-400 -mt-10 ml-4 rotate-2">
+                        <span className="text-2xl font-bold text-white">Bs. 20</span>
+                      </div>
+                      <div className="w-40 h-16 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-lg shadow-2xl flex items-center justify-center border-2 border-red-400 -mt-10 ml-8 -rotate-2">
+                        <span className="text-xl font-bold text-white">Bs. 10</span>
+                      </div>
                     </div>
                     {/* Brillo */}
                     <motion.div

@@ -1,4 +1,4 @@
-// Base de datos de billetes sospechosos, falsificados o invalidados (Blacklist)
+// Base de datos de billetes sospechosos, falsificados o invalidados (Blacklist) para Bolivianos (BOB)
 // En producción, esto sería PostgreSQL con permisos SELECT únicamente
 
 import type { BillData } from '@/types';
@@ -10,7 +10,7 @@ export const billDatabase: BillData[] = [
     id: 'B001',
     serialNumber: 'AB1234567890',
     denomination: 100,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-01-15',
     status: 'valid'
   },
@@ -18,7 +18,7 @@ export const billDatabase: BillData[] = [
     id: 'B002',
     serialNumber: 'CD9876543210',
     denomination: 50,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-03-20',
     status: 'valid'
   },
@@ -26,7 +26,7 @@ export const billDatabase: BillData[] = [
     id: 'B003',
     serialNumber: 'EF5556667778',
     denomination: 20,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-06-10',
     status: 'valid'
   },
@@ -34,7 +34,7 @@ export const billDatabase: BillData[] = [
     id: 'B004',
     serialNumber: 'GH1112223334',
     denomination: 100,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-08-05',
     status: 'valid'
   },
@@ -42,7 +42,7 @@ export const billDatabase: BillData[] = [
     id: 'B005',
     serialNumber: 'IJ9998887776',
     denomination: 200,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-11-12',
     status: 'valid'
   },
@@ -51,7 +51,7 @@ export const billDatabase: BillData[] = [
     id: 'B006',
     serialNumber: 'XX1234567890',
     denomination: 100,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-01-15',
     status: 'counterfeit'
   },
@@ -59,7 +59,7 @@ export const billDatabase: BillData[] = [
     id: 'B007',
     serialNumber: 'YY9876543210',
     denomination: 50,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-03-20',
     status: 'counterfeit'
   },
@@ -68,7 +68,7 @@ export const billDatabase: BillData[] = [
     id: 'B008',
     serialNumber: 'ZZ5556667778',
     denomination: 100,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-06-10',
     status: 'stolen'
   },
@@ -76,7 +76,7 @@ export const billDatabase: BillData[] = [
     id: 'B009',
     serialNumber: 'WW1112223334',
     denomination: 20,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2023-08-05',
     status: 'stolen'
   },
@@ -85,7 +85,7 @@ export const billDatabase: BillData[] = [
     id: 'B010',
     serialNumber: 'KL4445556667',
     denomination: 500,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2024-01-10',
     status: 'valid'
   },
@@ -93,7 +93,7 @@ export const billDatabase: BillData[] = [
     id: 'B011',
     serialNumber: 'MN7778889990',
     denomination: 1000,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2024-02-15',
     status: 'valid'
   },
@@ -101,7 +101,7 @@ export const billDatabase: BillData[] = [
     id: 'B012',
     serialNumber: 'OP1231231234',
     denomination: 100,
-    currency: 'USD',
+    currency: 'BOB',
     issueDate: '2024-03-01',
     status: 'valid'
   }
@@ -164,7 +164,7 @@ export function queryBillBySerialNumber(serialNumber: string): BillData | null {
   // Normalizar el número de serie (eliminar espacios, mayúsculas)
   const normalizedSerial = serialNumber.toUpperCase().replace(/\s/g, '');
 
-  // 1. Buscar en la base de datos fija (ej. USD)
+  // 1. Buscar en la base de datos fija (ej. BOB)
   const fixedBill = billDatabase.find(b =>
     b.serialNumber.toUpperCase() === normalizedSerial
   );
@@ -199,13 +199,13 @@ export function queryBillBySerialNumber(serialNumber: string): BillData | null {
 export function isValidSerialFormat(serialNumber: string): boolean {
   const cleanSerial = serialNumber.toUpperCase().replace(/\s/g, '');
 
-  // Formato USD: 2 letras seguidas de 8-10 dígitos
-  const usdPattern = /^[A-Z]{2}\d{8,10}$/;
+  // Formato BOB (Internacional): 2 letras seguidas de 8-10 dígitos (antes USD)
+  const intlBobPattern = /^[A-Z]{2}\d{8,10}$/;
 
-  // Formato BOB: 8-9 dígitos seguidos opcionalmente por una letra (ej. 181733528A)
-  const bobPattern = /^\d{8,9}[A-Z]?$/;
+  // Formato BOB (Local): 8-9 dígitos seguidos opcionalmente por una letra (ej. 181733528A)
+  const localBobPattern = /^\d{8,9}[A-Z]?$/;
 
-  return usdPattern.test(cleanSerial) || bobPattern.test(cleanSerial);
+  return intlBobPattern.test(cleanSerial) || localBobPattern.test(cleanSerial);
 }
 
 // Cache en memoria para simular Redis

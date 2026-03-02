@@ -233,12 +233,16 @@ export function useOCR(options: OCROptions = {}): UseOCRReturn {
       setCachedVerification(serialNumber, billData);
 
       if (billData) {
-        // Si se encontró en la base de datos, es INVÁLIDO (según nuevo requisito)
+        // Respetar el estado definido en la base de datos
+        const isActuallyValid = billData.status === 'valid';
+
         setResult({
-          status: 'invalid',
+          status: isActuallyValid ? 'valid' : 'invalid',
           serialNumber,
           billData,
-          message: 'BILLETE NO VÁLIDO: Se encuentra en la lista de billetes sospechosos o reportados.',
+          message: isActuallyValid
+            ? 'BILLETE VÁLIDO: No presenta reportes de irregularidad.'
+            : 'BILLETE NO VÁLIDO: Se encuentra en la lista de billetes sospechosos o reportados.',
           timestamp: new Date()
         });
       } else {

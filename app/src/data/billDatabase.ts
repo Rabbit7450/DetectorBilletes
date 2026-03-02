@@ -114,19 +114,33 @@ export interface BillRange {
   denomination: number;
 }
 
-// Datos de comparación de billetes de Bolivianos
+// Datos de comparación de billetes de Bolivianos (Blacklist)
+// NOTA: Los rangos más específicos deben ir PRIMERO para evitar falsos positivos
 export const bolivianBillRanges: BillRange[] = [
-  // Billetes de Bs 50
+  // Billetes de Bs 10 (Rangos específicos primero)
+  { from: 77100001, to: 77550000, denomination: 10 },
+  { from: 78000001, to: 78450000, denomination: 10 },
+  { from: 96350001, to: 96800000, denomination: 10 },
+  { from: 96800001, to: 97250000, denomination: 10 },
+  { from: 98150001, to: 98600000, denomination: 10 },
+  { from: 104900001, to: 105350000, denomination: 10 },
+  { from: 105350001, to: 105800000, denomination: 10 },
+  { from: 106700001, to: 107150000, denomination: 10 },
+  { from: 107600001, to: 108050000, denomination: 10 },
+  { from: 108050001, to: 108500000, denomination: 10 },
+  { from: 109400001, to: 109850000, denomination: 10 },
+
+  // Billetes de Bs 50 (Rangos específicos)
   { from: 67250001, to: 67700000, denomination: 50 },
   { from: 69050001, to: 69500000, denomination: 50 },
   { from: 69500001, to: 69950000, denomination: 50 },
   { from: 69950001, to: 70400000, denomination: 50 },
   { from: 70400001, to: 70850000, denomination: 50 },
   { from: 70850001, to: 71300000, denomination: 50 },
-  { from: 76310012, to: 85139995, denomination: 50 },
   { from: 86400001, to: 86850000, denomination: 50 },
   { from: 90900001, to: 91350000, denomination: 50 },
   { from: 91800001, to: 92250000, denomination: 50 },
+
   // Billetes de Bs 20
   { from: 87280145, to: 91646549, denomination: 20 },
   { from: 96650001, to: 97100000, denomination: 20 },
@@ -144,19 +158,10 @@ export const bolivianBillRanges: BillRange[] = [
   { from: 118700001, to: 119150000, denomination: 20 },
   { from: 119150001, to: 119600000, denomination: 20 },
   { from: 120500001, to: 120950000, denomination: 20 },
-  // Billetes de Bs 10
-  { from: 77100001, to: 77550000, denomination: 10 },
-  { from: 78000001, to: 78450000, denomination: 10 },
+
+  // Rangos generales al final para evitar atrapar series específicas indebidamente
+  { from: 76310012, to: 85139995, denomination: 50 },
   { from: 78900001, to: 96350000, denomination: 10 },
-  { from: 96350001, to: 96800000, denomination: 10 },
-  { from: 96800001, to: 97250000, denomination: 10 },
-  { from: 98150001, to: 98600000, denomination: 10 },
-  { from: 104900001, to: 105350000, denomination: 10 },
-  { from: 105350001, to: 105800000, denomination: 10 },
-  { from: 106700001, to: 107150000, denomination: 10 },
-  { from: 107600001, to: 108050000, denomination: 10 },
-  { from: 108050001, to: 108500000, denomination: 10 },
-  { from: 109400001, to: 109850000, denomination: 10 },
 ];
 
 // Función de consulta mejorada
@@ -187,7 +192,7 @@ export function queryBillBySerialNumber(serialNumber: string): BillData | null {
         denomination: rangeMatch.denomination,
         currency: 'BOB',
         issueDate: 'N/A',
-        status: 'valid'
+        status: 'counterfeit' // Cualquier coincidencia en rangos de blacklist es sospechosa
       };
     }
   }
